@@ -17,7 +17,7 @@ try:
         
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS PROFESORI (
-                ID INT AUTO_INCREMENT PRIMARY KEY,
+                ID INT(3) AUTO_INCREMENT PRIMARY KEY,
                 nume VARCHAR(100) NOT NULL,
                 prenume VARCHAR(100) NOT NULL,
                 email VARCHAR(150) UNIQUE,
@@ -29,7 +29,7 @@ try:
 
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS STUDENTI (
-                ID INT AUTO_INCREMENT PRIMARY KEY,
+                ID INT(3) AUTO_INCREMENT PRIMARY KEY,
                 nume VARCHAR(100) NOT NULL,
                 prenume VARCHAR(100) NOT NULL,
                 email VARCHAR(150) UNIQUE,
@@ -41,8 +41,8 @@ try:
 
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS DISCIPLINE (
-                COD VARCHAR(20) PRIMARY KEY,
-                ID_titular INT NOT NULL,
+                COD INT(3) PRIMARY KEY,
+                ID_titular INT(3) NOT NULL,
                 nume_disciplina VARCHAR(200) NOT NULL,
                 an_studiu INT NOT NULL,
                 tip_disciplina ENUM('impusa', 'optionala', 'liber_aleasa') NOT NULL,
@@ -54,44 +54,45 @@ try:
 
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS JOIN_DS (
-                DisciplinaID VARCHAR(20),
-                StudentID INT,
+                DisciplinaID INT(3),
+                StudentID INT(3),
                 PRIMARY KEY (DisciplinaID, StudentID),
                 FOREIGN KEY (DisciplinaID) REFERENCES DISCIPLINE(COD) ON DELETE CASCADE,
                 FOREIGN KEY (StudentID) REFERENCES STUDENTI(ID) ON DELETE CASCADE
             );
         """)
 
+        # Actualizăm adresele de e-mail și afilierea
         cursor.execute("""
             INSERT IGNORE INTO PROFESORI (nume, prenume, email, grad_didactic, tip_asociere, afiliere)
             VALUES 
-                ('Popescu', 'Ion', 'popescu.ion@example.com', 'prof', 'titular', 'Universitatea X'),
-                ('Ionescu', 'Maria', 'ionescu.maria@example.com', 'conf', 'asociat', 'Universitatea Y'),
-                ('Vasilescu', 'Andrei', 'vasilescu.andrei@example.com', 'asist', 'extern', 'Institutul Z');
+                ('Popescu', 'Ion', 'popescu.ion@academic.academia.com', 'prof', 'titular', 'Universitatea "Gh. Asachi" Iasi'),
+                ('Ionescu', 'Maria', 'ionescu.maria@academic.academia.com', 'conf', 'asociat', 'Universitatea "Gh. Asachi" Iasi'),
+                ('Vasilescu', 'Andrei', 'vasilescu.andrei@academic.academia.com', 'asist', 'extern', 'Universitatea "Gh. Asachi" Iasi');
         """)
 
         cursor.execute("""
-            INSERT IGNORE INTO STUDENTI (nume, prenume, email, ciclu_studii, an_studiu, grupa)
+            INSERT IGNORE INTO STUDENTI (ID, nume, prenume, email, ciclu_studii, an_studiu, grupa)
             VALUES 
-                ('Popescu', 'Elena', 'elena.popescu@example.com', 'licenta', 1, 101),
-                ('Ionescu', 'Mihai', 'mihai.ionescu@example.com', 'licenta', 2, 102),
-                ('Dumitrescu', 'Ioana', 'ioana.dumitrescu@example.com', 'master', 1, 201);
+                (101, 'Popescu', 'Elena', 'elena.popescu@student.academia.com', 'licenta', 1, 101),
+                (102, 'Ionescu', 'Mihai', 'mihai.ionescu@student.academia.com', 'licenta', 2, 102),
+                (103, 'Dumitrescu', 'Ioana', 'ioana.dumitrescu@student.academia.com', 'master', 1, 201);
         """)
 
         cursor.execute("""
             INSERT IGNORE INTO DISCIPLINE (COD, ID_titular, nume_disciplina, an_studiu, tip_disciplina, categorie_disciplina, tip_examinare)
             VALUES 
-                ('MATH101', 1, 'Matematica', 1, 'impusa', 'domeniu', 'examen'),
-                ('INF102', 1, 'Informatica', 1, 'optionala', 'specialitate', 'colocviu'),
-                ('PHY201', 2, 'Fizica', 2, 'impusa', 'adiacenta', 'examen');
+                (201, 1, 'Matematica', 1, 'impusa', 'domeniu', 'examen'),
+                (202, 1, 'Informatica', 1, 'optionala', 'specialitate', 'colocviu'),
+                (203, 2, 'Fizica', 2, 'impusa', 'adiacenta', 'examen');
         """)
 
         cursor.execute("""
             INSERT IGNORE INTO JOIN_DS (DisciplinaID, StudentID)
             VALUES 
-                ('MATH101', 1), 
-                ('INF102', 2),
-                ('PHY201', 3);
+                (201, 101), 
+                (202, 102),
+                (203, 103);
         """)
 
         db.commit()

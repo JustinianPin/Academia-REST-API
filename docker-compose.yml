@@ -1,19 +1,17 @@
 version: '3.8'
 services:
-  db:
-    image: mysql:8.0 # Sau mariadb:10.5 dacă preferi MariaDB
-    container_name: academia_db
+  mariadb:
+    image: mariadb:latest
+    container_name: academia-db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: academia
       MYSQL_USER: pos_admin
       MYSQL_PASSWORD: parola
     ports:
       - "3306:3306"
     volumes:
-      - db_data:/var/lib/mysql
-    command: --default-authentication-plugin=mysql_native_password
-
+      - academia_data:/var/lib/mysql
 volumes:
-  db_data:
+  academia_data:
