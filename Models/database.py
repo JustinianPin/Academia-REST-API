@@ -8,3 +8,10 @@ db = MySQLDatabase(
     host=config("MARIADB_HOST"),
     port=int(config("MARIADB_PORT")),
 )
+
+try:
+    db.connect()
+    print("Database connected successfully!")
+    db.close()
+except Exception as e:
+    print(f"Database connection failed: {e}")
