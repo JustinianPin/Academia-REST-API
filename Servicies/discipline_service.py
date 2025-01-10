@@ -1,5 +1,6 @@
 from Models.database import db
 from Models.discipline import Discipline
+from Models.join_ds import JoinDS
 
 class DisciplineService:
     @staticmethod
@@ -34,6 +35,18 @@ class DisciplineService:
         except Discipline.DoesNotExist:
             return None
 
+    @staticmethod
+    def get_disciplines_by_professor(professor_id: int):
+        return Discipline.select().where(Discipline.id_titular == professor_id)
+    
+    
+    @staticmethod
+    def get_disciplines_by_student(student_id: int):
+            return (
+                Discipline.select()
+                .join(JoinDS)
+                .where(JoinDS.student == student_id)
+            )
     @staticmethod
     def create_discipline(data: dict):
         with db.atomic():
