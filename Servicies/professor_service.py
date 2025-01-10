@@ -45,4 +45,13 @@ class ProfessorService:
                 afiliere=data["afiliere"],
             )
             return professor
+        
+    @staticmethod
+    def delete_professor(professor_id: int):
+        with db.atomic():
+            professor = Professor.get_or_none(Professor.id == professor_id)
+            if not professor:
+                raise ValueError("Professor does not exist")
+            professor.delete_instance()  
+
  
