@@ -3,12 +3,15 @@
 **Backend and Database project for managing an academic environment**
 
 ---
+## Note
 
+The full content and commit history of the project can be found in the branch **`project`**.
+
+---
 ## Description
 
 This repository contains the backend implementation of an academic management system. The project is structured as a RESTful API using Python, with both relational and non-relational database integration. It is designed following the **Model-View-Controller (MVC)** architectural pattern, and uses **Docker** for containerization and **Postman** for testing endpoints.
 
-> The full commit history of the project can be found in the branch **`project`**.
 
 ---
 
